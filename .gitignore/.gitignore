@@ -12,7 +12,8 @@ sysinfo.txt
 /Assets/AssetStoreTools*
 *.apk
 *.unitypackage
- 
+*.UnityLockfile
+
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
