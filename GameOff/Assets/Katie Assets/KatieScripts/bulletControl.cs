@@ -13,7 +13,7 @@ public class bulletControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //empty comment
     }
 
 	//temporary measure to avoid too many bullets while creation is being done
