@@ -3,8 +3,14 @@
 public class PlayerControl : MonoBehaviour
 {
 	public float moveSpeed = 5f;
+	public float airMoveSpeed = 2f;
 	public float jumpForce = 200f;
+	public float bulletSpeed = 2000f;
+	public GameObject weapon;
+	public GameObject bullet;
+	public GameObject bulletSpawnPosition;
 	private GameObject player;
+
 	Rigidbody2D playerRB;
 
 	void Start()
@@ -35,17 +41,34 @@ public class PlayerControl : MonoBehaviour
 			{
 				SetRotation(y: (Input.GetAxis("Horizontal") < 0 ? 180 : 0));
 			}
-			if (Input.GetKeyUp(KeyCode.UpArrow))
+			if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W))
 			{
 				Jump();
 			}
 		}
 		else //they are in the air
 		{
+			//still allow manipulation of velocity but reduce it when in the air
+			playerRB.velocity += new Vector2(Input.GetAxis("Horizontal") * airMoveSpeed * Time.deltaTime,0);
 			SetAnimationStatus(2);
 		}
+		if (Input.GetMouseButtonUp(0))
+		{
+			Shoot();
+		}
 	}
+	private void Shoot()
+	{
+		GameObject newBullet = Instantiate(bullet, bulletSpawnPosition.transform.position, Quaternion.identity);
+		Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		clickPos.z = 0;
+		Vector3 direction = clickPos - bulletSpawnPosition.transform.position;
+		Vector3 bulletRotation = new Vector3(0, 0, 180 - player.transform.eulerAngles.z + Mathf.Rad2Deg * Mathf.Atan((clickPos.y - newBullet.transform.position.y) / (clickPos.x - newBullet.transform.position.x)));
+		newBullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction.x, direction.y) * bulletSpeed);
+		newBullet.transform.eulerAngles = bulletRotation;
+		Destroy(newBullet, 2f);
 
+	}
 	private void SetRotation(float? x=null, float? y=null,float? z=null)
 	{
 		Vector3 currentRotation = player.transform.eulerAngles;
