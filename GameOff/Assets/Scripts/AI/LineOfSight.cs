@@ -47,11 +47,9 @@ public class LineOfSight : MonoBehaviour {
 
     public bool Spoted()
     {
-        Debug.Log(player.position);
 
         if (Vector2.Distance(player.position, transform.position) < CurrRange) //If the enemy are close
         {
-            Debug.Log((Vector2.Distance(player.position, transform.position)));
             if (PlayerInFieldOfView()) //If the player is in the enemy FoV
             {
                 if (!PlayerHiddenByObstacles())//If there is no obstacle betweent he player and the enemy
