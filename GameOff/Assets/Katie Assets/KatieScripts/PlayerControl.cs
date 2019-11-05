@@ -49,6 +49,7 @@ public class PlayerControl : MonoBehaviour
 		else //they are in the air
 		{
 			//still allow manipulation of velocity but reduce it when in the air
+			//**NOTE** I'm aware this still needs fixing.
 			playerRB.velocity += new Vector2(Input.GetAxis("Horizontal") * airMoveSpeed * Time.deltaTime,0);
 			SetAnimationStatus(2);
 		}

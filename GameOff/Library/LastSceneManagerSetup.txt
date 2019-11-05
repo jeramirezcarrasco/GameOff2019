@@ -1,5 +1,9 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Katie Assets/Scenes/ExamplePlayer.unity
+=======
+- path: Assets/Scenes/BlokopsScenes/Blkps1.unity
+>>>>>>> e3df21600235ad0506576263f7e5dea46f8ed839
   isLoaded: 1
   isActive: 1
   isSubScene: 0
