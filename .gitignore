@@ -1,4 +1,6 @@
+/*
 !.gitignore
+!GameOff/*
 
 GameOff/*
 !GameOff/Assets/
