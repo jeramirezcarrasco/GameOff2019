@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HelloWorld : MonoBehaviour
+public class bulletControl : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Yo!");
+        
     }
 
     // Update is called once per frame
@@ -15,4 +15,10 @@ public class HelloWorld : MonoBehaviour
     {
         
     }
+
+	//temporary measure to avoid too many bullets while creation is being done
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		Destroy(gameObject);
+	}
 }
