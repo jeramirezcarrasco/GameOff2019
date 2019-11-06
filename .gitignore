@@ -78,3 +78,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 *.lnk.meta
+GameOff/Packages/manifest.json
+GameOff/Logs/Packages-Updates.log
