@@ -79,4 +79,6 @@ $RECYCLE.BIN/
 *.lnk
 *.lnk.meta
 GameOff/Packages/manifest.json
+GameOff\Packages\manifest.json
 GameOff/Logs/Packages-Updates.log
+GameOff\Logs\Packages-Updates.log
