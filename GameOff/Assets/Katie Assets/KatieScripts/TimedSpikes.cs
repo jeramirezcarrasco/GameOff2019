@@ -51,7 +51,6 @@ public class TimedSpikes : MonoBehaviour
 				moving = false;
 				lastTime = Time.time;
 				extending = !extending;
-				Debug.Log("Finished Moving");
 			}
 			
 		}

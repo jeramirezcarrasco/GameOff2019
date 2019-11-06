@@ -14,6 +14,8 @@ public class PlayerControl : MonoBehaviour
 
 	public bool HoldingWeapon = true;
 
+	public bool AlternativeMovementType = true;
+
 	Rigidbody2D playerRB;
 
 	void Start()
@@ -39,7 +41,15 @@ public class PlayerControl : MonoBehaviour
 		{
 			if (!RayDirection)
 			{
-				playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+				if (AlternativeMovementType)
+				{
+					player.transform.position += Vector3.right * Time.deltaTime * Input.GetAxis("Horizontal")*moveSpeed/100;
+				}
+				else
+				{
+					playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+				}
+				
 				SetAnimationStatus((Input.GetAxis("Horizontal") != 0) ? 1 : 0);
 			}
 			if (Input.GetAxis("Horizontal") != 0)
@@ -53,16 +63,23 @@ public class PlayerControl : MonoBehaviour
 		}
 		else //they are in the air, still allowed to move, but slower
 		{
-			//if the player is moving slower than the air-move-speed
-			bool Condition1 = Mathf.Abs(playerRB.velocity.x) < Mathf.Abs(Input.GetAxis("Horizontal") * airMoveSpeed * Time.deltaTime);
-			//or if the player wants to move the opposite direction to the current one
-			bool Condition2 = Mathf.Sign(Input.GetAxis("Horizontal")) != Mathf.Sign(playerRB.velocity.x);
-			//then allow the slower movement speed in air
-			if (!RayDirection &&(Condition1 || Condition2))
+			if (!RayDirection && AlternativeMovementType)
 			{
-				playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * airMoveSpeed * Time.deltaTime, playerRB.velocity.y);
+				player.transform.position += Vector3.right * Time.deltaTime * Input.GetAxis("Horizontal")*moveSpeed/100;
 			}
-			SetAnimationStatus(2);
+			else
+			{
+				//if the player is moving slower than the air-move-speed
+				bool Condition1 = Mathf.Abs(playerRB.velocity.x) < Mathf.Abs(Input.GetAxis("Horizontal") * airMoveSpeed * Time.deltaTime);
+				//or if the player wants to move the opposite direction to the current one
+				bool Condition2 = Mathf.Sign(Input.GetAxis("Horizontal")) != Mathf.Sign(playerRB.velocity.x);
+				//then allow the slower movement speed in air
+				if (!RayDirection && (Condition1 || Condition2))
+				{
+					playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * airMoveSpeed * Time.deltaTime, playerRB.velocity.y);
+				}
+				SetAnimationStatus(2);
+			}
 		}
 	}
 
