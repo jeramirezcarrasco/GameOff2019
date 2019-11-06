@@ -19,39 +19,5 @@ public class BulletMove : MonoBehaviour
         //Invoke("Disappear", 5);
     }
     
-    //private void OnTriggerEnter2D(Collider2D other){
-    //    if (other.gameObject.CompareTag("Player")){
-    //        PidgeonMovement.Instance.GetDamage();
-    //    }
-    //}
-
-    //void Disappear()
-    //{
-    //    gameObject.SetActive(false);
-    //}
-
-    //private void OnTriggerEnter2D(Collider2D hitInfo)
-    //{
-    //    Enemy enemy = hitInfo.GetComponent<Enemy>();
-    //    if (enemy != null)
-    //    {
-    //        enemy.TakeDamage();
-    //        Instantiate(Impact, transform.position, transform.rotation);
-    //        Destroy(gameObject);
-    //    }
-    //    Enemy2 enemy2 = hitInfo.GetComponent<Enemy2>();
-    //    if (enemy2 != null)
-    //    {
-    //        enemy2.TakeDamage();
-    //        Instantiate(Impact, transform.position, transform.rotation);
-    //        Destroy(gameObject);
-    //    }
-    //    if (hitInfo.gameObject.tag == "Bullet")
-    //    {
-    //        Instantiate(Impact, transform.position, transform.rotation);
-    //        Destroy(gameObject);
-    //    }
-
-    //}
 
 }

@@ -420,7 +420,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 973581180}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.12, y: 4.52, z: 0}
+  m_LocalPosition: {x: -0.08, y: 3.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1711036053}
@@ -470,12 +470,12 @@ MonoBehaviour:
   GunBarrelAimSpeed: 4
   attackSpeedSeconds: 0.3
   GunBarrelObject: {fileID: 973581180}
-  BulletObject: {fileID: 1584762383712998, guid: 2f49df5c53019c845b4628ef5040ae25,
+  BulletObject: {fileID: 7935484517815004317, guid: 821ebe318789d3545a23e5d6ed2b3c39,
     type: 3}
   BulletSpread: 20
   WakeUp: 0.5
   BulletObjectGap: 0.1
-  BulletObjectSpeedGap: 1.5
+  BulletObjectSpeedGap: 5.31
 --- !u!114 &973581188
 MonoBehaviour:
   m_ObjectHideFlags: 0
