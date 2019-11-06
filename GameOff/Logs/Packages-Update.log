@@ -42,7 +42,11 @@ The following packages were updated:
 The following packages were removed:
   com.unity.package-manager-ui@2.2.0
 
+<<<<<<< HEAD
 === Wed Nov  6 10:00:48 2019
+=======
+=== Wed Nov  6 16:54:41 2019
+>>>>>>> 9a467c2cdc1f89cbdb777518f8814c81e1d76a0c
 
 Packages were changed.
 Update Mode: resetToDefaultDependencies
