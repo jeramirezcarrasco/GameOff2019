@@ -78,3 +78,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 *.lnk.meta
+GameOff/Packages/manifest.json
