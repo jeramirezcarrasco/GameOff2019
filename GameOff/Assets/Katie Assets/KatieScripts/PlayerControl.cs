@@ -10,6 +10,9 @@ public class PlayerControl : MonoBehaviour
 	public GameObject bullet;
 	public GameObject bulletSpawnPosition;
 	private GameObject player;
+	public GameObject animatedChild; //do we have a game-object attached to the player with the animated sprites?
+
+	public bool HoldingWeapon = true;
 
 	Rigidbody2D playerRB;
 
@@ -22,53 +25,89 @@ public class PlayerControl : MonoBehaviour
 	void Update()
 	{
 		MovementControl();
+		if (Input.GetMouseButtonUp(0) && HoldingWeapon)
+		{
+			Shoot();
+		}
+	}
+	private void MovementControl()
+	{
+		Vector3 direction = Mathf.Sign(Input.GetAxis("Horizontal")) < 0 ? Vector3.left : Vector3.right;
+		bool RayDirection = CheckRay(direction);
+		//is the player on the ground?
+		if (IsGrounded())
+		{
+			if (!RayDirection)
+			{
+				playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+				SetAnimationStatus((Input.GetAxis("Horizontal") != 0) ? 1 : 0);
+			}
+			if (Input.GetAxis("Horizontal") != 0)
+			{
+				SetRotation(y: (Input.GetAxis("Horizontal") < 0 ? 180 : 0));
+			}
+			if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+			{
+				Jump();
+			}
+		}
+		else //they are in the air, still allowed to move, but slower
+		{
+			//if the player is moving slower than the air-move-speed
+			bool Condition1 = Mathf.Abs(playerRB.velocity.x) < Mathf.Abs(Input.GetAxis("Horizontal") * airMoveSpeed * Time.deltaTime);
+			//or if the player wants to move the opposite direction to the current one
+			bool Condition2 = Mathf.Sign(Input.GetAxis("Horizontal")) != Mathf.Sign(playerRB.velocity.x);
+			//then allow the slower movement speed in air
+			if (!RayDirection &&(Condition1 || Condition2))
+			{
+				playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * airMoveSpeed * Time.deltaTime, playerRB.velocity.y);
+			}
+			SetAnimationStatus(2);
+		}
 	}
 
 	private bool IsGrounded()
 	{
 		//if we are touching the floor then the raycast will hit it so we can return true
-		Debug.DrawRay(player.transform.position, Vector3.down * 0.67f, Color.blue);
-		return Physics2D.Raycast(player.transform.position, Vector3.down, 0.67f);
+		Debug.DrawRay(player.transform.position + Vector3.down * player.transform.localScale.y / 2, Vector3.down * 0.1f, Color.blue);
+		return Physics2D.Raycast(player.transform.position + Vector3.down * player.transform.localScale.y / 2, Vector3.down, 0.1f);
 	}
-	private void MovementControl()
+	private bool CheckRay(Vector3 direction)
 	{
-		//is the player on the ground?
-		if (IsGrounded())
+		GameObject raycastObject = player; //this is just in case we wanted to raycast from something else later.
+		Vector3 rayPos = raycastObject.transform.position;
+		Vector3 rayScale = raycastObject.transform.localScale;
+		//this checks whether the player is about to hit something in the given direction, has 3 rays to check the top middle and bottom of the player so all possibilities are covered.
+		Vector3 topRay = rayPos + Vector3.Scale(direction,rayScale/2) + Vector3.up*rayScale.y/2;
+		Vector3 middleRay = rayPos + Vector3.Scale(direction,rayScale / 2);
+		Vector3 bottomRay = rayPos + Vector3.Scale(direction, rayScale / 2) + Vector3.down * rayScale.y / 2;
+		Vector3[] rays = { topRay, middleRay, bottomRay };
+		bool hasHit = false;
+		foreach (var ray in rays)
 		{
-			playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime, playerRB.velocity.y);
-			SetAnimationStatus((Input.GetAxis("Horizontal") != 0) ? 1 : 0);
-			if (Input.GetAxis("Horizontal") != 0)
+			Debug.DrawRay(ray, direction * 0.1f, Color.blue);
+			if (Physics2D.Raycast(ray, direction, 0.1f))
 			{
-				SetRotation(y: (Input.GetAxis("Horizontal") < 0 ? 180 : 0));
-			}
-			if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W))
-			{
-				Jump();
+				hasHit = true;
 			}
 		}
-		else //they are in the air
-		{
-			//still allow manipulation of velocity but reduce it when in the air
-			//**NOTE** I'm aware this still needs fixing.
-			playerRB.velocity += new Vector2(Input.GetAxis("Horizontal") * airMoveSpeed * Time.deltaTime,0);
-			SetAnimationStatus(2);
-		}
-		if (Input.GetMouseButtonUp(0))
-		{
-			Shoot();
-		}
+		return hasHit;
+	}
+	private Vector3 ClickPos()
+	{
+		Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		clickPos.z = 0;
+		return clickPos;
 	}
 	private void Shoot()
 	{
-		GameObject newBullet = Instantiate(bullet, bulletSpawnPosition.transform.position, Quaternion.identity);
-		Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		clickPos.z = 0;
+		Vector3 clickPos = ClickPos();
 		Vector3 direction = clickPos - bulletSpawnPosition.transform.position;
-		Vector3 bulletRotation = new Vector3(0, 0, 180 - player.transform.eulerAngles.z + Mathf.Rad2Deg * Mathf.Atan((clickPos.y - newBullet.transform.position.y) / (clickPos.x - newBullet.transform.position.x)));
+		Vector3 bulletRotation = new Vector3(0, 0, 180 - player.transform.eulerAngles.z + Mathf.Rad2Deg * Mathf.Atan((clickPos.y - bulletSpawnPosition.transform.position.y) / (clickPos.x - bulletSpawnPosition.transform.position.x)));
+		GameObject newBullet = Instantiate(bullet, bulletSpawnPosition.transform.position, Quaternion.identity);
 		newBullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction.x, direction.y) * bulletSpeed);
 		newBullet.transform.eulerAngles = bulletRotation;
 		Destroy(newBullet, 2f);
-
 	}
 	private void SetRotation(float? x=null, float? y=null,float? z=null)
 	{
@@ -87,6 +126,12 @@ public class PlayerControl : MonoBehaviour
 		// 0 = Idle
 		// 1 = Walking
 		// 2 = Jumping
-		player.GetComponent<Animator>().SetInteger("AnimationState", index);
+		if (animatedChild != null)
+		{
+			if (animatedChild.GetComponent<Animator>() != null)
+			{
+				animatedChild.GetComponent<Animator>().SetInteger("AnimationState", index);
+			}
+		}
 	}
 }
