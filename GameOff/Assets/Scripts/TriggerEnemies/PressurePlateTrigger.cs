@@ -7,11 +7,21 @@ public class PressurePlateTrigger : MonoBehaviour
 	public GameObject[] triggers;
 	private void OnCollisionEnter2D(Collision2D hit)
 	{
+		Debug.Log("FIRE");
 		if (hit.gameObject.tag == "Player")
 		{
 			foreach (var trigger in triggers)
 			{
-				trigger.GetComponent<PressurePlateSpikes>().Fire();
+				if (trigger.GetComponent<PressurePlateBullets>() != null)
+				{
+					trigger.GetComponent<PressurePlateBullets>().Trigger();
+				}
+
+				if (trigger.GetComponent<GeneralSpike>() != null)
+				{
+					trigger.GetComponent<GeneralSpike>().Trigger();
+				}
+				
 			}
 		}
 		
