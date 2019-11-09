@@ -7,6 +7,7 @@ public class Patrol : MonoBehaviour
 
     [SerializeField] float Speed;
     [SerializeField] float DepthPercetion;
+    [SerializeField] float WallDepthPerception;
     [SerializeField] Transform GroundDetection1;
     [SerializeField] Transform GroundDetection2;
     [SerializeField] float Acceleration;
@@ -15,7 +16,7 @@ public class Patrol : MonoBehaviour
     [SerializeField] bool DebugMode;
 
     private bool MovRight = true, hitWall = false;
-    public float CurrSpeed;
+    [System.NonSerialized] public float CurrSpeed;
     private Rigidbody2D EnemyRigibody;
     private Transform EnemyTransform;
 
@@ -40,14 +41,18 @@ public class Patrol : MonoBehaviour
     public void StartPatrol()
     {
         transform.Translate(Vector2.right * CurrSpeed * Time.deltaTime);
-        RaycastHit2D groundSlowDown = Physics2D.Raycast(GroundDetection2.position, Vector2.down, DepthPercetion);
-        RaycastHit2D ground = Physics2D.Raycast(GroundDetection1.position, Vector2.down, DepthPercetion);
-        Debug.DrawLine(GroundDetection2.position, GroundDetection2.position + Vector3.down, Color.red);
-        Debug.DrawLine(GroundDetection1.position, GroundDetection1.position + Vector3.down, Color.red);
-
-
-
-        if (groundSlowDown.collider == false)
+        RaycastHit2D groundSlowDown = Physics2D.Raycast(GroundDetection2.position, Vector2.down, DepthPercetion, obstacleMaskWall);
+        RaycastHit2D ground = Physics2D.Raycast(GroundDetection1.position, Vector2.down, DepthPercetion, obstacleMaskWall);
+        RaycastHit2D wallRight = Physics2D.Raycast(GroundDetection1.position, Vector2.right, WallDepthPerception, obstacleMaskWall);
+        RaycastHit2D wallLeft = Physics2D.Raycast(GroundDetection1.position, Vector2.left, WallDepthPerception, obstacleMaskWall);
+        if (DebugMode)
+        {
+            Debug.DrawLine(GroundDetection2.position, GroundDetection2.position + Vector3.down, Color.red);
+            Debug.DrawLine(GroundDetection1.position, GroundDetection1.position + Vector3.down, Color.red);
+            Debug.DrawLine(GroundDetection1.position, GroundDetection1.position + Vector3.right, Color.red);
+            Debug.DrawLine(GroundDetection1.position, GroundDetection1.position + Vector3.left, Color.red);
+        }
+        if (groundSlowDown.collider == false )
         {
             if (CurrSpeed > (Speed / 3))
             {
@@ -62,7 +67,7 @@ public class Patrol : MonoBehaviour
             }
         }
         //if (ground.collider == false || hitWall)
-        if (ground.collider == false)
+        if (ground.collider == false || wallRight || wallLeft)
         {
             Vector3 Rotate = EnemyTransform.eulerAngles;
             Rotate.y += 180;
