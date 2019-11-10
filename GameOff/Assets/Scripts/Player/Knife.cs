@@ -5,8 +5,10 @@ using UnityEngine;
 public class Knife : MonoBehaviour
 {
 	PlayerControl player;
+    public GameObject killEffect;
 	Rigidbody2D knifeRB;
-	public float throwSpeed = 200f;
+	public float throwSpeed = 2000f;
+    public float throwRotation = 1800f;
 	private bool held = true;
     // Start is called before the first frame update
     void Start()
@@ -27,12 +29,28 @@ public class Knife : MonoBehaviour
 		StartCoroutine(Throwing());
 	}
 
+    private void AttachToObject(GameObject parent)
+    {
+        Destroy(gameObject.GetComponent<Rigidbody2D>());
+        GameObject connector = new GameObject();
+        connector.transform.parent = parent.transform;
+        gameObject.transform.parent = connector.transform;
+    }
+
+    private void DetachFromParent()
+    {
+        GameObject parent = gameObject.transform.parent.gameObject;
+        gameObject.transform.parent.parent.DetachChildren(); //remove the attached parent
+        gameObject.transform.parent.DetachChildren(); //then remove the connector
+        Destroy(parent); //then delete the connector
+    }
+
 	private IEnumerator Throwing()
 	{
 		Debug.Log("animating");
 		player.SetAnimationStatus(3);
 		yield return new WaitForSeconds(0.5f);
-		gameObject.transform.parent.DetachChildren();
+        DetachFromParent();
 
 		Vector3 clickPos = player.ClickPos();
 		Vector3 direction = Vector3.Normalize(clickPos - gameObject.transform.position);
@@ -50,16 +68,21 @@ public class Knife : MonoBehaviour
 	{
 		if (collision.tag == "Player" && !held)
 		{
-			Destroy(gameObject.GetComponent<Rigidbody2D>());
-			player.HoldingWeapon = true;
 			gameObject.transform.position = player.weaponHoldPoint.transform.position;
-			gameObject.transform.SetParent(player.weaponHoldPoint.transform);
-			held = true;
+            gameObject.transform.eulerAngles = collision.gameObject.transform.eulerAngles;
+            AttachToObject(player.weaponHoldPoint);
+            player.HoldingWeapon = true;
+            held = true;
 		}
-		else if(!held)
+        else if (collision.gameObject.tag == "Enemy")
+        {
+            Destroy(collision.gameObject);
+            Instantiate(killEffect, collision.gameObject.transform.position, Quaternion.identity);
+        }
+        else if(!held)
 		{
-			Destroy(gameObject.GetComponent<Rigidbody2D>());
-			gameObject.transform.SetParent(collision.gameObject.transform);
+            AttachToObject(collision.gameObject);
 		}
+        
 	}
 }

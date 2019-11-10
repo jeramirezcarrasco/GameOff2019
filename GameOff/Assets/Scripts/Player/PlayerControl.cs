@@ -6,14 +6,13 @@ public class PlayerControl : MonoBehaviour
 	public float airMoveSpeed = 2f;
 	public float jumpForce = 200f;
 	public float bulletSpeed = 2000f;
-	public float throwSpeed = 2000f;
-
 	public string currentWeapon = "knife";
 
 	public GameObject weaponPrefab;
 	public GameObject bulletPrefab;
 	public GameObject bulletSpawnPosition;
 	public GameObject weaponHoldPoint;
+    private GameObject weaponConnector;
 
 	private GameObject player;
 	private GameObject weapon;
@@ -29,12 +28,12 @@ public class PlayerControl : MonoBehaviour
 	{
 		player = gameObject;
 		playerRB = player.GetComponent<Rigidbody2D>();
-		//spawn in the knife
-		weapon = Instantiate(weaponPrefab, weaponHoldPoint.transform.position, Quaternion.identity, weaponHoldPoint.transform);
+        //spawn in the knife
+        weaponConnector = new GameObject();
+        weaponConnector.transform.parent = weaponHoldPoint.transform;
+        weapon = Instantiate(weaponPrefab, weaponHoldPoint.transform.position, Quaternion.identity, weaponConnector.transform);
 		knife = weapon.GetComponent<Knife>();
-		knife.throwSpeed = throwSpeed;
-		//Physics2D.IgnoreCollision(player.GetComponent<EdgeCollider2D>(), knife.GetComponent<PolygonCollider2D>());
-		
+		//Physics2D.IgnoreCollision(player.GetComponent<EdgeCollider2D>(), knife.GetComponent<PolygonCollider2D>());		
 	}
 
 	void Update()
