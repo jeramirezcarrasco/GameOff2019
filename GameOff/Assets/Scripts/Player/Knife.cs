@@ -42,7 +42,7 @@ public class Knife : MonoBehaviour
 		knifeRB.AddTorque(1500f);
 		player.SetAnimationStatus(0, true);
 
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.1f);
 		held = false;
 	}
 
