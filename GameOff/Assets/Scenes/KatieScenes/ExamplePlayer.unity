@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &66875993
 Transform:
   m_ObjectHideFlags: 0
@@ -1017,9 +1017,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 383748352}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.11557579, y: -0.10493048, z: 0}
+  m_LocalPosition: {x: -0.1155758, y: -0.10493048, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1637816593}
   m_Father: {fileID: 1033479483}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2257,6 +2258,7 @@ GameObject:
   - component: {fileID: 767572932}
   - component: {fileID: 767572931}
   - component: {fileID: 767572930}
+  - component: {fileID: 767572934}
   m_Layer: 0
   m_Name: tilemap_10
   m_TagString: Untagged
@@ -2264,32 +2266,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &767572930
-BoxCollider2D:
+--- !u!68 &767572930
+EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 767572929}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 0.5, y: 0.5}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.49815655, y: -0.1382649}
+  - {x: 0.49907827, y: -0.1382649}
 --- !u!114 &767572931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2368,6 +2362,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &767572934
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767572929}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 0.5, y: 0.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &827629011
 GameObject:
   m_ObjectHideFlags: 0
@@ -4363,6 +4383,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1637816592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1637816593}
+  m_Layer: 0
+  m_Name: WeaponHoldingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1637816593
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637816592}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.06880423, y: -0.07084774, z: -0.17607243}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_Children: []
+  m_Father: {fileID: 383748353}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1639159330
 GameObject:
   m_ObjectHideFlags: 0
@@ -4778,7 +4828,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1795555818}
   m_Enabled: 0
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: e9488b42a7705f3448c76e5004ea0c1e, type: 2}
+  m_Material: {fileID: 6200000, guid: 32a791de308417740a1fec5b17303cdc, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -4811,7 +4861,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: e9488b42a7705f3448c76e5004ea0c1e, type: 2}
+  m_Material: {fileID: 6200000, guid: 32a791de308417740a1fec5b17303cdc, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -4832,9 +4882,14 @@ MonoBehaviour:
   airMoveSpeed: 100
   jumpForce: 250
   bulletSpeed: 300
-  weapon: {fileID: 66875992}
-  bullet: {fileID: 8845150015282415967, guid: 15628d79fe2cadf4794baf3b7af53141, type: 3}
+  throwSpeed: 500
+  currentWeapon: knife
+  weaponPrefab: {fileID: 7754746976624746987, guid: 49ef942ae8f55b34a91d20951e1aa855,
+    type: 3}
+  bulletPrefab: {fileID: 8845150015282415967, guid: 15628d79fe2cadf4794baf3b7af53141,
+    type: 3}
   bulletSpawnPosition: {fileID: 74137514}
+  weaponHoldPoint: {fileID: 1637816592}
   animatedChild: {fileID: 1065442373}
   HoldingWeapon: 1
   AlternativeMovementType: 0
