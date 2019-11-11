@@ -6,22 +6,34 @@ public class PlayerControl : MonoBehaviour
 	public float airMoveSpeed = 2f;
 	public float jumpForce = 200f;
 	public float bulletSpeed = 2000f;
-	public GameObject weapon;
-	public GameObject bullet;
+	public string currentWeapon = "knife";
+
+	public GameObject weaponPrefab;
+	public GameObject bulletPrefab;
 	public GameObject bulletSpawnPosition;
+	public GameObject weaponHoldPoint;
+    private GameObject weaponConnector;
+
 	private GameObject player;
+	private GameObject weapon;
 	public GameObject animatedChild; //do we have a game-object attached to the player with the animated sprites?
 
 	public bool HoldingWeapon = true;
-
 	public bool AlternativeMovementType = true;
 
 	Rigidbody2D playerRB;
+	Knife knife;
 
 	void Start()
 	{
-		player = this.gameObject;
+		player = gameObject;
 		playerRB = player.GetComponent<Rigidbody2D>();
+        //spawn in the knife
+        weaponConnector = new GameObject();
+        weaponConnector.transform.parent = weaponHoldPoint.transform;
+        weapon = Instantiate(weaponPrefab, weaponHoldPoint.transform.position, Quaternion.identity, weaponConnector.transform);
+		knife = weapon.GetComponent<Knife>();
+		//Physics2D.IgnoreCollision(player.GetComponent<EdgeCollider2D>(), knife.GetComponent<PolygonCollider2D>());		
 	}
 
 	void Update()
@@ -29,7 +41,7 @@ public class PlayerControl : MonoBehaviour
 		MovementControl();
 		if (Input.GetMouseButtonUp(0) && HoldingWeapon)
 		{
-			Shoot();
+			Attack();
 		}
 	}
 	private void MovementControl()
@@ -110,21 +122,31 @@ public class PlayerControl : MonoBehaviour
 		}
 		return hasHit;
 	}
-	private Vector3 ClickPos()
+	public Vector3 ClickPos()
 	{
 		Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		clickPos.z = 0;
 		return clickPos;
 	}
-	private void Shoot()
+	private void Attack()
 	{
 		Vector3 clickPos = ClickPos();
-		Vector3 direction = clickPos - bulletSpawnPosition.transform.position;
-		Vector3 bulletRotation = new Vector3(0, 0, 180 - player.transform.eulerAngles.z + Mathf.Rad2Deg * Mathf.Atan((clickPos.y - bulletSpawnPosition.transform.position.y) / (clickPos.x - bulletSpawnPosition.transform.position.x)));
-		GameObject newBullet = Instantiate(bullet, bulletSpawnPosition.transform.position, Quaternion.identity);
-		newBullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction.x, direction.y) * bulletSpeed);
-		newBullet.transform.eulerAngles = bulletRotation;
-		Destroy(newBullet, 2f);
+		
+		if (currentWeapon == "knife")
+		{
+			knife.Throw();
+			HoldingWeapon = false;
+		}
+		else if (currentWeapon == "gun")
+		{
+			Vector3 direction = clickPos - bulletSpawnPosition.transform.position;
+			Vector3 bulletRotation = new Vector3(0, 0, 180 - player.transform.eulerAngles.z + Mathf.Rad2Deg * Mathf.Atan((clickPos.y - bulletSpawnPosition.transform.position.y) / (clickPos.x - bulletSpawnPosition.transform.position.x)));
+			GameObject newBullet = Instantiate(bulletPrefab, bulletSpawnPosition.transform.position, Quaternion.identity);
+			newBullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction.x, direction.y) * bulletSpeed);
+			newBullet.transform.eulerAngles = bulletRotation;
+			Destroy(newBullet, 2f);
+		}
+		
 	}
 	private void SetRotation(float? x=null, float? y=null,float? z=null)
 	{
@@ -138,16 +160,23 @@ public class PlayerControl : MonoBehaviour
 	{
 		playerRB.AddForce(new Vector3(0, jumpForce, 0));
 	}
-	private void SetAnimationStatus(int index)
+	public void SetAnimationStatus(int index, bool overriding=false)
 	{
+		if (index == 3) { Debug.Log("animating to " + index + " from player"); }
 		// 0 = Idle
 		// 1 = Walking
 		// 2 = Jumping
+		// 3 = Throwing
 		if (animatedChild != null)
 		{
 			if (animatedChild.GetComponent<Animator>() != null)
 			{
-				animatedChild.GetComponent<Animator>().SetInteger("AnimationState", index);
+				if (animatedChild.GetComponent<Animator>().GetInteger("AnimationState") != 3 || overriding)
+				{
+					if (index == 3) { Debug.Log("Made it"); }
+					animatedChild.GetComponent<Animator>().SetInteger("AnimationState", index);
+				}
+				
 			}
 		}
 	}
