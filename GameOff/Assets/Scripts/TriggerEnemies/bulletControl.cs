@@ -19,6 +19,6 @@ public class bulletControl : MonoBehaviour
 	//temporary measure to avoid too many bullets while creation is being done
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		Destroy(gameObject);
+		//Destroy(gameObject);
 	}
 }
