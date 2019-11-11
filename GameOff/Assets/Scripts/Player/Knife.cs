@@ -49,15 +49,16 @@ public class Knife : MonoBehaviour
 	{
 		Debug.Log("animating");
 		player.SetAnimationStatus(3);
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.4f);
         DetachFromParent();
 
 		Vector3 clickPos = player.ClickPos();
-		Vector3 direction = Vector3.Normalize(clickPos - gameObject.transform.position);
+		Vector3 direction = Vector3.Normalize(clickPos - gameObject.transform.position+Vector3.up);
 
 		knifeRB = gameObject.AddComponent<Rigidbody2D>();
 		knifeRB.AddForce(direction * throwSpeed);
-		knifeRB.AddTorque(1500f);
+		bool right = GameObject.Find("Player").transform.localEulerAngles.y == 180;
+		knifeRB.AddTorque(1500f * (right?1:-1));
 		player.SetAnimationStatus(0, true);
 
 		yield return new WaitForSeconds(0.1f);

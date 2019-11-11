@@ -142,5 +142,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   killEffect: {fileID: 4173196102892137860, guid: ac14a0d602fcb4d32b78a36b2d6358a1,
     type: 3}
-  throwSpeed: 500
-  throwRotation: 2500
+  throwSpeed: 700
+  throwRotation: 2000
