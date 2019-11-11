@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LineOfSight : MonoBehaviour {
-    
+
+    [SerializeField] bool Visuals;
+    [SerializeField] bool Debugging;
     public float range;//How far the enemy can see
     public int Fov; //Field of view(aka the angle the enemy can see)
     [SerializeField]
@@ -11,6 +13,7 @@ public class LineOfSight : MonoBehaviour {
     Transform player;
     public int CurrFov;
     public float CurrRange;
+
 
     private LineOfSightVisual lineOfSightVisual;
 
@@ -29,20 +32,39 @@ public class LineOfSight : MonoBehaviour {
 
     private void Update()
     {
-        if (!Spoted())
+        if (Debugging)
         {
-
-            lineOfSightVisual.DrawFieldOfView();
-            CurrFov = Fov;
-            CurrRange = range;
+            if (Visuals)
+            {
+                if (!Spoted())
+                {
+                    lineOfSightVisual.DrawFieldOfView();
+                    CurrFov = Fov;
+                    CurrRange = range;
+                }
+                else if (Spoted())
+                {
+                    lineOfSightVisual.viewMesh.Clear();
+                    CurrRange = 10;
+                    CurrFov = 110;
+                }
+            }
+            else
+            {
+                if (!Spoted())
+                {
+                    CurrFov = Fov;
+                    CurrRange = range;
+                }
+                else if (Spoted())
+                {
+                    CurrRange = 10;
+                    CurrFov = 110;
+                }
+            }
+           
         }
-        else if (Spoted())
-        {
-            lineOfSightVisual.viewMesh.Clear();
-            CurrRange = 10;
-            CurrFov = 110;
-            
-        }
+        
     }
 
     public bool Spoted()
