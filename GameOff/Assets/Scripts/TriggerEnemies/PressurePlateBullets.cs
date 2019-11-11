@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PressurePlateSpikes : MonoBehaviour
+public class PressurePlateBullets: MonoBehaviour
 {
 	public bool Right;
 	public GameObject bullet;
@@ -21,8 +21,9 @@ public class PressurePlateSpikes : MonoBehaviour
 
 	}
 
-	public void Fire()
+	public void Trigger()
 	{
+		Debug.Log("Triggered bullets");
 		for (int i = 0; i < numBullets; i++)
 		{
 			float newx = gameObject.transform.position.x;
