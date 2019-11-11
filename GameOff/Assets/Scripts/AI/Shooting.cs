@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shooting1 : MonoBehaviour
+public class Shooting : MonoBehaviour
 {
     public Transform Player;
     public float GunBarrelAimSpeed;
