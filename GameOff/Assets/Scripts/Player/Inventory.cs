@@ -7,7 +7,7 @@ public class Inventory : MonoBehaviour
 {
 	PlayerControl player;
 	public Sprite[] items;
-	private int[] holding; //how many of each item are we holding;
+	public int[] holding; //how many of each item are we holding;
 	GameObject invUI;
 	GameObject InventoryCanvas;
 	Canvas canvas;
@@ -45,6 +45,20 @@ public class Inventory : MonoBehaviour
 			canvas.enabled = false;
 		}
     }
+
+	public void Refresh()
+	{
+		if (canvas.enabled)
+		{
+			foreach (Transform child in contentView.transform)
+			{
+				Destroy(child.gameObject);
+			}
+			CreateUI();
+		}
+		
+	}
+
 
 	void CreateUI()
 	{
@@ -95,11 +109,5 @@ public class Inventory : MonoBehaviour
         rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0);
         rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
     }
-	private void OnTriggerEnter2D(Collider2D collision)
-	{
-        //item pick up control - I think it makes sense to do it from this script
-        if (collision.gameObject.tag == "item")
-        {
-        }
-	}
+
 }

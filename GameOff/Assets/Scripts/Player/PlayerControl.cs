@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerControl : MonoBehaviour
 {
 	public float moveSpeed = 5f;
@@ -23,11 +23,13 @@ public class PlayerControl : MonoBehaviour
 
 	Rigidbody2D playerRB;
 	Knife knife;
+	Inventory inventory;
 
 	void Start()
 	{
 		player = gameObject;
 		playerRB = player.GetComponent<Rigidbody2D>();
+		inventory = GameObject.Find("Canvas").GetComponent<Inventory>();
         //spawn in the knife
         weaponConnector = new GameObject();
         weaponConnector.transform.parent = weaponHoldPoint.transform;
@@ -193,6 +195,22 @@ public class PlayerControl : MonoBehaviour
 				
 			}
 		}
+	}
+
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		Sprite[] drops = inventory.items;
+		int i = 0;
+		foreach(var drop in drops)
+		{
+			if (collision.gameObject.tag == drop.name)
+			{
+				inventory.holding[i] += 1;
+				Destroy(collision.gameObject);
+				inventory.Refresh();
+			}
+			i += 1;
+		}	
 	}
 
 }

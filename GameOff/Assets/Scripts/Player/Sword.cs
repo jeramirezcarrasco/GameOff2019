@@ -5,6 +5,7 @@ using UnityEngine;
 public class Sword : MonoBehaviour
 {
 	public GameObject killEffect;
+	public GameObject itemSpawn;
 	private PlayerControl player;
     // Start is called before the first frame update
     void Start()
@@ -22,10 +23,10 @@ public class Sword : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Enemy" && !player.HoldingWeapon)
 		{
-            GameObject itemSpawner = new GameObject("Item Spawner");
-            ItemDrop items = itemSpawner.AddComponent<ItemDrop>();
+			GameObject itemSpawner = Instantiate(itemSpawn, collision.gameObject.transform.position,Quaternion.identity);
+            ItemDrop items = itemSpawner.GetComponent<ItemDrop>();
             items.SpawnItems(collision.gameObject.transform.position);
-            Destroy(itemSpawner);
+            Destroy(itemSpawner.gameObject);
 			Instantiate(killEffect, collision.gameObject.transform.position, Quaternion.identity);
 			Destroy(collision.gameObject);
             

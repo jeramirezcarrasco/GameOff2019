@@ -5,6 +5,7 @@ using UnityEngine;
 public class Knife : MonoBehaviour
 {
 	PlayerControl player;
+	public GameObject itemSpawn;
     public GameObject killEffect;
 	Rigidbody2D knifeRB;
 	public float throwSpeed = 2000f;
@@ -77,10 +78,14 @@ public class Knife : MonoBehaviour
 		}
         else if (collision.gameObject.tag == "Enemy")
         {
-            Destroy(collision.gameObject);
-            Instantiate(killEffect, collision.gameObject.transform.position, Quaternion.identity);
-        }
-        else if(!held)
+			GameObject itemSpawner = Instantiate(itemSpawn, collision.gameObject.transform.position, Quaternion.identity);
+			ItemDrop items = itemSpawner.GetComponent<ItemDrop>();
+			items.SpawnItems(collision.gameObject.transform.position);
+			Destroy(itemSpawner.gameObject);
+			Instantiate(killEffect, collision.gameObject.transform.position, Quaternion.identity);
+			Destroy(collision.gameObject);
+		}
+        else if(collision.gameObject.tag=="Untagged" &&!held)
 		{
             AttachToObject(collision.gameObject);
 		}

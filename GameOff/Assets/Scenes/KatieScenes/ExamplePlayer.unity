@@ -7863,8 +7863,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - {fileID: 21300000, guid: 3ef1a771bc4298144917d21704977ea8, type: 3}
   - {fileID: 21300000, guid: c2e510c21531b4340b1cb616cc713108, type: 3}
+  - {fileID: 21300000, guid: 2579566af4548d446b33072b17168ad1, type: 3}
+  - {fileID: 21300000, guid: 9fefeccbeff2b694bab1790864be5d31, type: 3}
+  - {fileID: 21300000, guid: 3ef1a771bc4298144917d21704977ea8, type: 3}
+  holding: 
   contentView: {fileID: 1080354929}
   UIFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1516073539
@@ -9476,8 +9479,8 @@ MonoBehaviour:
   airMoveSpeed: 100
   jumpForce: 250
   bulletSpeed: 300
-  currentWeapon: sword
-  weaponPrefab: {fileID: 7875272369191340317, guid: 8c07055428bb71946b08d45e86358b2d,
+  currentWeapon: knife
+  weaponPrefab: {fileID: 7754746976624746987, guid: 49ef942ae8f55b34a91d20951e1aa855,
     type: 3}
   bulletPrefab: {fileID: 8845150015282415967, guid: 15628d79fe2cadf4794baf3b7af53141,
     type: 3}

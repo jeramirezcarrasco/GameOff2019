@@ -158,3 +158,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   killEffect: {fileID: 4173196102892137860, guid: ac14a0d602fcb4d32b78a36b2d6358a1,
     type: 3}
+  itemSpawn: {fileID: 8699339491180666989, guid: 0f40416946c8a5b4f91545f560576c64,
+    type: 3}

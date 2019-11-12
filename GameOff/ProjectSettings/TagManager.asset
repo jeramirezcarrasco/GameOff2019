@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Ground
   - Enemy
+  - coin
+  - healthpot
+  - diamond
+  - gold
+  - gold bar
   layers:
   - Default
   - TransparentFX
