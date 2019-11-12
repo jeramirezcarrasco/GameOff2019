@@ -22,8 +22,13 @@ public class Sword : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Enemy" && !player.HoldingWeapon)
 		{
+            GameObject itemSpawner = new GameObject("Item Spawner");
+            ItemDrop items = itemSpawner.AddComponent<ItemDrop>();
+            items.SpawnItems(collision.gameObject.transform.position);
+            Destroy(itemSpawner);
 			Instantiate(killEffect, collision.gameObject.transform.position, Quaternion.identity);
 			Destroy(collision.gameObject);
+            
 		}
 	}
 	public void Swing()

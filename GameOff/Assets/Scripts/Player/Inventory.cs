@@ -12,14 +12,20 @@ public class Inventory : MonoBehaviour
 	GameObject InventoryCanvas;
 	Canvas canvas;
 	public GameObject contentView;
+    public Font UIFont;
     // Start is called before the first frame update'
 	void Start()
     {
+
 		InventoryCanvas = gameObject;
 		canvas = gameObject.GetComponent<Canvas>();
 		canvas.enabled = false;
-		player = GameObject.Find("player").GetComponent<PlayerControl>();
-
+		player = GameObject.Find("Player").GetComponent<PlayerControl>();
+        holding = new int[items.Length];
+        for(int i = 0; i < items.Length; i++)
+        {
+            holding[i] = 0;
+        }
 	}
 
     // Update is called once per frame
@@ -46,26 +52,54 @@ public class Inventory : MonoBehaviour
 		//need to add images and text to the viewport so we know how much stuff we have
 		foreach(var item in items)
 		{
-			GameObject element = new GameObject(item.name);
-			element.transform.parent = contentView.transform;
-			RectTransform rect = element.AddComponent<RectTransform>();
-			rect.anchorMin = new Vector2(0, 1);
-			rect.anchorMax = new Vector2(0, 1);
-			rect.pivot = new Vector2(0,1);
-			rect.localPosition = new Vector2(10,-10 -100*i);
-			//rect.anchoredPosition = new Vector2(0,1);
-			//rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
-			//rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
-			Image im = element.AddComponent<Image>();
-			im.sprite = item;
-			i += 1;
+            AddImageAtPosition(item.name+" im",item, new Vector2(0, 1), 10, -10 - 100 * i);
+            AddTextAtPosition(item.name + " pic", item.name+"s: "+holding[i], new Vector2(0, 1), 110, -10 - 100 * i);
+            i += 1;
 		}
 	}
 
+    void NewCanvasObject(string name, Vector2 anchor, out GameObject element, out RectTransform rect)
+    {
+        element = new GameObject(name);
+        element.transform.parent = contentView.transform;
+        rect = element.AddComponent<RectTransform>();
+        rect.anchorMin = anchor;
+        rect.anchorMax = anchor;
+        rect.pivot = anchor;
+    }
 
+    void AddImageAtPosition(string name, Sprite sprite, Vector2 anchor, int x,int y)
+    {
+        GameObject element;
+        RectTransform rect;
+        NewCanvasObject(name, anchor,out element, out rect);
+        rect.localPosition = new Vector2(x, y);
+        Image im = element.AddComponent<Image>();
+        im.sprite = sprite;
+    }
+
+    void AddTextAtPosition(string name, string text, Vector2 anchor, int x, int y)
+    {
+        GameObject element;
+        RectTransform rect;
+        NewCanvasObject(name, anchor,out element, out rect);
+        Text itemText = element.AddComponent<Text>();
+        itemText.alignment = TextAnchor.MiddleLeft;
+        itemText.color = Color.white;
+        itemText.horizontalOverflow = HorizontalWrapMode.Overflow;
+        itemText.verticalOverflow = VerticalWrapMode.Overflow;
+        itemText.text = text;
+        itemText.font = UIFont;
+        itemText.fontSize = 35;
+        rect.localPosition = new Vector2(x, y);
+        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0);
+        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
+    }
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		//item pick up control - I think it makes sense to do it from this script
-
+        //item pick up control - I think it makes sense to do it from this script
+        if (collision.gameObject.tag == "item")
+        {
+        }
 	}
 }

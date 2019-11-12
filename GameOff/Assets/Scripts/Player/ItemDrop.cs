@@ -17,4 +17,15 @@ public class ItemDrop : MonoBehaviour
     {
         
     }
+
+    public void SpawnItems(Vector3 position)
+    {
+        foreach(var drop in drops)
+        {
+            for(int i = 0; i < Random.Range(0, 3); i++)
+            {
+                Instantiate(drop, position, Quaternion.identity);
+            }
+        }
+    }
 }
