@@ -32,7 +32,16 @@ public class PlayerControl : MonoBehaviour
         weaponConnector = new GameObject();
         weaponConnector.transform.parent = weaponHoldPoint.transform;
         weapon = Instantiate(weaponPrefab, weaponHoldPoint.transform.position, Quaternion.identity, weaponConnector.transform);
-		knife = weapon.GetComponent<Knife>();
+
+		if (currentWeapon == "knife")
+		{
+			knife = weapon.GetComponent<Knife>();
+		}
+		else if (currentWeapon == "sword")
+		{
+			weapon.transform.eulerAngles += new Vector3(0, 0, -30);
+		}
+		
 		//Physics2D.IgnoreCollision(player.GetComponent<EdgeCollider2D>(), knife.GetComponent<PolygonCollider2D>());		
 	}
 
@@ -145,6 +154,11 @@ public class PlayerControl : MonoBehaviour
 			newBullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction.x, direction.y) * bulletSpeed);
 			newBullet.transform.eulerAngles = bulletRotation;
 			Destroy(newBullet, 2f);
+		}
+		else if (currentWeapon == "sword")
+		{
+			Sword sword = weapon.GetComponent<Sword>();
+			sword.Swing();
 		}
 		
 	}
